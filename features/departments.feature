@@ -7,7 +7,7 @@ Feature: Add Department
 
   @createDepartment @main
   Scenario Outline: Create Department
-    When user provides department name <departmentName>
+    When user provides valid department name <departmentName>
     And system creates department and provide an auto increment department id
     #notice that system is not doing any validation on department name since it is not specified on requirements
     Examples:

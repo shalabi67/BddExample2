@@ -11,6 +11,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String SWAGGER_ROLE = "SWAGGER";
     private static final String ADMIN_ROLE = "ADMIN";
     private static final String DEPARTMENT_ROLE = "DEPARTMENT";
+    public static final String ADMIN_USER = "admin";
+    public static final String ADMIN_PASSWORD = "admin";
     // Authentication : User --> Roles
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
@@ -22,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("swagger").password("swagger")
                 .roles(SWAGGER_ROLE, DEPARTMENT_ROLE)
-                .and().withUser("admin").password("admin")
+                .and().withUser(ADMIN_USER).password(ADMIN_PASSWORD)
                 .roles(DEPARTMENT_ROLE, ADMIN_ROLE, SWAGGER_ROLE);
     }
 
