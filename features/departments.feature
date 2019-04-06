@@ -1,6 +1,6 @@
 @departments
 Feature: Add Department
-  Adding members
+  Adding department
 
   Background:
     Given departments system is started

@@ -21,9 +21,7 @@ public class DepartmentController {
         this.departmentRepository = departmentRepository;
     }
 
-    @ApiOperation(value = "create department", response=Department.class, httpMethod="POST"
-            //,authorizations = {@Authorization(value="basicAuth")}
-            )
+    @ApiOperation(value = "create department", response=Department.class, httpMethod="POST")
     @PostMapping("")
     public ResponseEntity<Department> addDepartment(@RequestBody Department department) {
         Department newDepartment = departmentRepository.save(department);

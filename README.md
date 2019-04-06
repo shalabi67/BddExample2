@@ -19,6 +19,10 @@ select user,host from mysql.user where user='root';
 CREATE USER 'root'@'10.0.2.2' IDENTIFIED WITH mysql_native_password BY 'asyle123';
 grant all privileges on *.* to 'root'@'10.0.2.2' with grant option;
 
+##start rabbitmq
+docker run -d --hostname rabbitmq --name rabbitmq -p 15671:15671 -p 567:5671 -p 5672:5672 rabbitmq:3-management
+
+
 ##run application
 ####start mysql
 #### start application from intellij by running EmployyApplication

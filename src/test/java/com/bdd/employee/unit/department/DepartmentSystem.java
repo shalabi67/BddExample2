@@ -1,4 +1,4 @@
-package com.bdd.employee.unit;
+package com.bdd.employee.unit.department;
 
 import com.bdd.employee.departments.Department;
 import com.bdd.employee.departments.DepartmentController;

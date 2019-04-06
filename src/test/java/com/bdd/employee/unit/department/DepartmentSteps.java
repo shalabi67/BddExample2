@@ -17,7 +17,7 @@ public class DepartmentSteps {
 
     @Given("^departments system is started$")
     public void departments_system_is_started() throws Throwable {
-        departmentSystem = new com.bdd.employee.unit.DepartmentSystem();
+        departmentSystem = new com.bdd.employee.unit.department.DepartmentSystem();
     }
 
     @When("^user provides valid department name (.+)$")

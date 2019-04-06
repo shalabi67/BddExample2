@@ -2,15 +2,14 @@ package com.bdd.employee.itegration.department;
 
 import com.bdd.employee.departments.Department;
 import com.bdd.employee.facade.DepartmentSystem;
+import com.bdd.employee.itegration.JpaDataBase;
 import com.bdd.employee.itegration.SpringBootBase;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
-import cucumber.api.junit.Cucumber;
 import org.junit.Assert;
 import org.junit.Ignore;
-import org.junit.runner.RunWith;
 
 @Ignore
 public class DepartmentSteps extends SpringBootBase {
