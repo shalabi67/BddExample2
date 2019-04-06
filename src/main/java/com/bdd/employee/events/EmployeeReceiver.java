@@ -17,6 +17,5 @@ public class EmployeeReceiver {
     @RabbitHandler
     public void receive(EmployeeEvent employeeEvent) {
         employeeEventRepository.save(employeeEvent);
-        System.out.println(" [x] Received '" + employeeEvent.getEmployee().getEmail() + "'");
     }
 }

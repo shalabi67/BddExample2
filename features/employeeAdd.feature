@@ -9,6 +9,7 @@ Feature: Add Employee
   Scenario Outline: Create Employee
     When user provides valid employee information to create a valid employee <firstName>, <lastName>, <email>, <birthday>, and <department>
     And system creates employee and provide an auto increment employee uuid
+    And add employee event will be recorded
     #notice that requirement did not specify this uuid should be of type UUID so I wil assume it is Long for simplicity.
     Examples:
       | firstName | lastName | email            | birthday    | department |

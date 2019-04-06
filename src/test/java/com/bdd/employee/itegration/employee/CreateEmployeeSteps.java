@@ -58,6 +58,10 @@ public class CreateEmployeeSteps  {
         Assert.assertEquals(this.employee.getFirstName(), employee.getFirstName());
         Assert.assertEquals(this.employee.getLastName(), employee.getLastName());
     }
+    @And("add employee event will be recorded")
+    public void addEmployeeEventWillBeRecorded() {
+        //TODO: write test for this part.
+    }
 
     @And("^system returns invalid email information$")
     public void system_returns_invalid_email_information() throws Throwable {

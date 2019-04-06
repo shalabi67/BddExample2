@@ -18,6 +18,5 @@ public class EmployeeSender {
 
     public void send(EmployeeEvent employeeEvent) {
         this.template.convertAndSend(queue.getName(), employeeEvent);
-        System.out.println(" [x] Sent '" + employeeEvent.getEmployee().getEmail() + "'");
     }
 }

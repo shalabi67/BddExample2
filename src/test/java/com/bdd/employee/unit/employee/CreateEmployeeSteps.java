@@ -1,11 +1,12 @@
 package com.bdd.employee.unit.employee;
 
-import com.bdd.employee.departments.Department;
 import com.bdd.employee.employees.Employee;
 import com.bdd.employee.employees.ErrorEnum;
 import com.bdd.employee.employees.Result;
+import com.bdd.employee.events.EmployeeEvent;
+import com.bdd.employee.events.EventTypeEnum;
 import com.bdd.employee.facade.EmployeeSystem;
-import cucumber.api.PendingException;
+import com.bdd.employee.facade.EventMocks;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.And;
@@ -13,14 +14,22 @@ import cucumber.api.junit.Cucumber;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 @RunWith(Cucumber.class)
 public class CreateEmployeeSteps {
-    EmployeeSystem employeeSystem;
-    Employee employee;
+    private EmployeeSystem employeeSystem;
+    private Employee employee;
+    private Employee newEmployee;
+    private EventMocks eventMocks;
 
     @Given("^Employee system is started and it has three department 1, 2, and 3$")
     public void employee_system_is_started_and_it_has_three_department_1_2_and_3() throws Throwable {
-        employeeSystem = new com.bdd.employee.unit.employee.EmployeeSystem();
+        com.bdd.employee.unit.employee.EmployeeSystem tempSystem = new com.bdd.employee.unit.employee.EmployeeSystem();
+        eventMocks = tempSystem.getEventMocks();
+        employeeSystem = tempSystem;
+
+        //TODO: notice no need to add departments since they are already added from Add department tests. this can be consider a bug since the test has state
     }
 
     @When("^user provides valid employee information to create a valid employee (.+), (.+), (.+), (.+), and (.+)$")
@@ -54,6 +63,16 @@ public class CreateEmployeeSteps {
         Assert.assertEquals(this.employee.getEmail(), employee.getEmail());
         Assert.assertEquals(this.employee.getFirstName(), employee.getFirstName());
         Assert.assertEquals(this.employee.getLastName(), employee.getLastName());
+
+        newEmployee = employee;
+    }
+
+    @And("add employee event will be recorded")
+    public void addEmployeeEventWillBeRecorded() {
+        List<EmployeeEvent> employeeEvents = eventMocks.getEmployeeEvents(newEmployee.getUuid());
+
+        Assert.assertEquals(1,employeeEvents.size());
+        Assert.assertEquals(EventTypeEnum.added, employeeEvents.get(0).getEventType());
     }
 
     @And("^system returns invalid email information$")

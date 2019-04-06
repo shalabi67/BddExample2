@@ -1,0 +1,69 @@
+package com.bdd.employee.facade;
+
+import com.bdd.employee.configurations.QueueConfiguration;
+import com.bdd.employee.events.EmployeeEvent;
+import com.bdd.employee.events.EmployeeEventRepository;
+import com.bdd.employee.events.EmployeeReceiver;
+import com.bdd.employee.events.EmployeeSender;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+
+import java.util.*;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+
+public class EventMocks {
+    private Map<Long, List<EmployeeEvent>> employeeEventMap = new HashMap<>(); //EmployeeId TO List<EmployeeEvents>
+    public  List<EmployeeEvent> getEmployeeEvents(Long employeeId) {
+        return employeeEventMap.getOrDefault(employeeId, new ArrayList<>());
+    }
+
+
+
+    public EmployeeSender createEmploySenderMock() {
+        Queue queue = Mockito.mock(Queue.class);
+        Mockito.when(queue.getName()).thenReturn(QueueConfiguration.QUEUE_NAME);
+
+        RabbitTemplate template = Mockito.mock(RabbitTemplate.class);
+        Mockito.doAnswer(senderAnswer).when(template).convertAndSend(anyString(), any(EmployeeEvent.class));
+
+        return new EmployeeSender(template, queue);
+    }
+
+    private Answer<Void> senderAnswer = new Answer<Void>() {
+        @Override
+        public Void answer(InvocationOnMock invocationOnMock) throws Throwable {
+            EmployeeEvent employeeEvent = invocationOnMock.getArgument(1);
+            EmployeeReceiver employeeReceiver = createEmployeeReceiverMock();
+            employeeReceiver.receive(employeeEvent);
+
+            return null;
+        }
+    };
+
+    private EmployeeReceiver createEmployeeReceiverMock() {
+        EmployeeEventRepository employeeEventRepository = Mockito.mock(EmployeeEventRepository.class);
+        Mockito.when(employeeEventRepository.save(any())).thenAnswer(receiveAnswer);
+
+        return new EmployeeReceiver(employeeEventRepository);
+    }
+    private Answer<EmployeeEvent> receiveAnswer = new Answer<EmployeeEvent>() {
+        @Override
+        public EmployeeEvent answer(InvocationOnMock invocationOnMock) throws Throwable {
+            EmployeeEvent employeeEvent = invocationOnMock.getArgument(0);
+
+            employeeEvent.setCreationDate(new Date());
+            Long employeeId = employeeEvent.getEmployee().getUuid();
+
+            List<EmployeeEvent> employeeEvents = employeeEventMap.getOrDefault(employeeId, new ArrayList<>());
+            employeeEvents.add(employeeEvent);
+            employeeEventMap.put(employeeId, employeeEvents);
+
+            return employeeEvent;
+        }
+    };
+}
