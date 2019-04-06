@@ -3,6 +3,7 @@ package com.bdd.employee.itegration.department;
 import com.bdd.employee.configurations.SecurityConfiguration;
 import com.bdd.employee.departments.Department;
 import com.bdd.employee.departments.DepartmentController;
+import com.bdd.employee.facade.JsonMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
@@ -24,13 +25,14 @@ public class DepartmentSystem extends com.bdd.employee.facade.DepartmentSystem {
 
     @Override
     public Department createDepartment(Department department) throws Exception {
+        JsonMapper<Department> jsonMapper = new JsonMapper<>();
         MvcResult mvcResult = this.mockMvc
                 .perform(
                         post(DepartmentController.URL)
                         .header(HttpHeaders.AUTHORIZATION,
                                 "Basic " + Base64Utils.encodeToString((SecurityConfiguration.ADMIN_USER + ":" + SecurityConfiguration.ADMIN_PASSWORD).getBytes()))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(departmentToString(department))
+                        .content(jsonMapper.toString(department))
                         .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isCreated())
@@ -38,28 +40,7 @@ public class DepartmentSystem extends com.bdd.employee.facade.DepartmentSystem {
                 .andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
-        return stringToDepartment(content);
-    }
-
-    private String departmentToString(Department department) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            String json = objectMapper.writeValueAsString(department);
-            return json;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    private Department stringToDepartment(String  content) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            Department department = objectMapper.readValue(content, Department.class);
-            return department;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return jsonMapper.toObject(content, Department.class);
     }
 
     @Override
