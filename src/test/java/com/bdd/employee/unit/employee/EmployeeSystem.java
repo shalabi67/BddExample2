@@ -1,6 +1,7 @@
 package com.bdd.employee.unit.employee;
 
 import com.bdd.employee.employees.*;
+import com.bdd.employee.events.EmployeeSender;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -18,6 +19,9 @@ public class EmployeeSystem extends com.bdd.employee.facade.EmployeeSystem {
     @Mock
     private EmployeeRepository employeeRepository;
 
+    @Mock
+    private EmployeeSender employeeSender;
+
     private EmployeeController employeeController;
 
     private Map<String, Employee> emailEmployeeMap = new HashMap<>();
@@ -28,7 +32,7 @@ public class EmployeeSystem extends com.bdd.employee.facade.EmployeeSystem {
         employeeRepository = Mockito.mock(EmployeeRepository.class);
         Mockito.when(employeeRepository.save(any())).then(employeeCreateAnswer);
 
-        EmployeeService employeeService = new EmployeeService(employeeRepository);
+        EmployeeService employeeService = new EmployeeService(employeeRepository, employeeSender);
         employeeController = new EmployeeController(employeeService);
     }
     @Override

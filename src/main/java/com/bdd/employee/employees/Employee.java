@@ -3,11 +3,12 @@ package com.bdd.employee.employees;
 import com.bdd.employee.departments.Department;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames="email"))
-public class Employee {
+public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long uuid;
@@ -19,7 +20,7 @@ public class Employee {
 
     private String birthday;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "department_id", nullable = true)
     private Department department;
 
