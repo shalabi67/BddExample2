@@ -7,6 +7,7 @@ import com.bdd.employee.itegration.SpringBootBase;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -37,7 +38,7 @@ public class DepartmentSteps extends SpringBootBase {
         throw new PendingException();
     }
 
-    @And("^system creates department and provide an auto increment department id$")
+    @Then("^system creates department and provide an auto increment department id$")
     public void system_creates_department_and_provide_an_auto_increment_department_id() throws Throwable {
         Department newDepartment = departmentSystem.createDepartment(department);
 
@@ -48,12 +49,12 @@ public class DepartmentSteps extends SpringBootBase {
 
     }
 
-    @And("^system returns an error department exists$")
+    @Then("^system returns an error department exists$")
     public void system_returns_an_error_department_exists() throws Throwable {
         throw new PendingException();
     }
 
-    @And("^system returns an error invalid department name$")
+    @Then("^system returns an error invalid department name$")
     public void system_returns_an_error_invalid_department_name() throws Throwable {
         throw new PendingException();
     }

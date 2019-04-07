@@ -4,8 +4,8 @@ import com.bdd.employee.departments.Department;
 import com.bdd.employee.facade.DepartmentSystem;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import cucumber.api.java.en.And;
 import cucumber.api.junit.Cucumber;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
@@ -36,7 +36,7 @@ public class DepartmentSteps {
         throw new PendingException();
     }
 
-    @And("^system creates department and provide an auto increment department id$")
+    @Then("^system creates department and provide an auto increment department id$")
     public void system_creates_department_and_provide_an_auto_increment_department_id() throws Throwable {
         Department department = departmentSystem.createDepartment(this.department);
 
@@ -44,12 +44,12 @@ public class DepartmentSteps {
         Assert.assertEquals(this.department.getDepartmentName(), department.getDepartmentName());
     }
 
-    @And("^system returns an error department exists$")
+    @Then("^system returns an error department exists$")
     public void system_returns_an_error_department_exists() throws Throwable {
         throw new PendingException();
     }
 
-    @And("^system returns an error invalid department name$")
+    @Then("^system returns an error invalid department name$")
     public void system_returns_an_error_invalid_department_name() throws Throwable {
         throw new PendingException();
     }

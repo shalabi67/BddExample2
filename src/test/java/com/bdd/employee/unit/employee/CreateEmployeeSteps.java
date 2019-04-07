@@ -8,6 +8,7 @@ import com.bdd.employee.events.EventTypeEnum;
 import com.bdd.employee.facade.EmployeeSystem;
 import com.bdd.employee.facade.EventMocks;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.And;
 import cucumber.api.junit.Cucumber;
@@ -52,7 +53,7 @@ public class CreateEmployeeSteps {
         employee = employeeSystem.getEmployee(firstname, lastname, email, birthday, department);
     }
 
-    @And("^system creates employee and provide an auto increment employee uuid$")
+    @Then("^system creates employee and provide an auto increment employee uuid$")
     public void system_creates_employee_and_provide_an_auto_increment_employee_uuid() throws Throwable {
         Result<Employee> result = employeeSystem.createEmployee(this.employee);
         Assert.assertNotNull(result.getResult());
@@ -75,20 +76,20 @@ public class CreateEmployeeSteps {
         Assert.assertEquals(EventTypeEnum.added, employeeEvents.get(0).getEventType());
     }
 
-    @And("^system returns invalid email information$")
+    @Then("^system returns invalid email information$")
     public void system_returns_invalid_email_information() throws Throwable {
         Result<Employee> result = employeeSystem.createEmployee(this.employee);
         Assert.assertEquals(employee.getEmail(), ErrorEnum.InvalidEmail, result.getErrorNumber());
     }
 
-    @And("^system returns exiting email information$")
+    @Then("^system returns exiting email information$")
     public void system_returns_exiting_email_information() throws Throwable {
         employeeSystem.createEmployee(this.employee);
         Result<Employee> result = employeeSystem.createEmployee(this.employee);
         Assert.assertEquals(employee.getEmail(), ErrorEnum.EmailExists, result.getErrorNumber());
     }
 
-    @And("^system returns invalid birthday$")
+    @Then("^system returns invalid birthday$")
     public void system_returns_invalid_birthday() throws Throwable {
         Result<Employee> result = employeeSystem.createEmployee(this.employee);
         Assert.assertEquals(employee.getBirthday(), ErrorEnum.InvalidDate, result.getErrorNumber());

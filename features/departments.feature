@@ -8,7 +8,7 @@ Feature: Add Department
   @createDepartment @main
   Scenario Outline: Create Department
     When user provides valid department name <departmentName>
-    And system creates department and provide an auto increment department id
+    Then system creates department and provide an auto increment department id
     #notice that system is not doing any validation on department name since it is not specified on requirements
     Examples:
       | departmentName |
@@ -20,7 +20,7 @@ Feature: Add Department
   @createDepartment @alternative
   Scenario Outline: Create Department with an exiting department name
     When user provides department name which exists in the system <departmentName>
-    And system returns an error department exists
+    Then system returns an error department exists
     Examples:
       | departmentName |
       | hr             |
@@ -31,7 +31,7 @@ Feature: Add Department
   @createDepartment @alternative
   Scenario Outline: Create Department with an invalid department name
     When user provides department name which is invalid <departmentName>
-    And system returns an error invalid department name
+    Then system returns an error invalid department name
     Examples:
       | departmentName |
       | 123            |

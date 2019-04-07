@@ -8,7 +8,7 @@ Feature: Add Employee
   @main
   Scenario Outline: Create Employee
     When user provides valid employee information to create a valid employee <firstName>, <lastName>, <email>, <birthday>, and <department>
-    And system creates employee and provide an auto increment employee uuid
+    Then system creates employee and provide an auto increment employee uuid
     And add employee event will be recorded
     #notice that requirement did not specify this uuid should be of type UUID so I wil assume it is Long for simplicity.
     Examples:
@@ -22,7 +22,7 @@ Feature: Add Employee
   @alternative
   Scenario Outline: Create Employee with an invalid email
     When user provides invalid email with employee information to create an employee <firstName>, <lastName>, <email>, <birthday>, and <department>
-    And system returns invalid email information
+    Then system returns invalid email information
     Examples:
       | firstName | lastName | email            | birthday    | department |
       | hana      | smith    | hana.go.com      | 1990-10-20  | 1          |
@@ -40,7 +40,7 @@ Feature: Add Employee
   @alternative
   Scenario Outline: Create Employee with an exiting email
     When user provides exiting email with employee information to create an employee <firstName>, <lastName>, <email>, <birthday>, and <department>
-    And system returns exiting email information
+    Then system returns exiting email information
     Examples:
       | firstName | lastName | email                  | birthday    | department |
       | nana      | smith    | smithExisit@go.com     | 1990-10-20  | 1          |
@@ -51,7 +51,7 @@ Feature: Add Employee
   @alternative
   Scenario Outline: Create Employee with invalid birthday
     When user provides invalid birthday with employee information to create an employee <firstName>, <lastName>, <email>, <birthday>, and <department>
-    And system returns invalid birthday
+    Then system returns invalid birthday
     Examples:
       | firstName | lastName | email            | birthday    | department |
       | nana      | smith    | smith@go.com     | 1990/10/20  | 1          |
