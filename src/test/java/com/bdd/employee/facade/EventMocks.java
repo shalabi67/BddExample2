@@ -3,6 +3,7 @@ package com.bdd.employee.facade;
 import com.bdd.employee.configurations.QueueConfiguration;
 import com.bdd.employee.departments.Department;
 import com.bdd.employee.employees.Employee;
+import com.bdd.employee.employees.JsonMapper;
 import com.bdd.employee.events.*;
 import org.jetbrains.annotations.NotNull;
 import org.mockito.Mockito;
@@ -72,7 +73,7 @@ public class EventMocks {
             EmployeeEvent employeeEvent = invocationOnMock.getArgument(0);
 
             employeeEvent.setCreationDate(new Date());
-            Long employeeId = employeeEvent.getEmployee().getUuid();
+            Long employeeId = employeeEvent.getEmployeeId();
 
             addEventToMap(employeeId, employeeEvent);
 
@@ -82,11 +83,14 @@ public class EventMocks {
 
     private EmployeeEvent createEvent(EventTypeEnum type, long employeeId) {
         Employee employee = getEmployee(employeeId);
+        JsonMapper<Employee> jsonMapper = new JsonMapper<>();
+
 
         EmployeeEvent employeeEvent = new EmployeeEvent();
         employeeEvent.setCreationDate(new Date());
         employeeEvent.setEventType(type);
-        employeeEvent.setEmployee(employee);
+        employeeEvent.setEmployeeId(employeeId);
+        employeeEvent.setEmployeeJson(jsonMapper.toString(employee));
         employeeEvent.setEventId(++count);
 
         return employeeEvent;

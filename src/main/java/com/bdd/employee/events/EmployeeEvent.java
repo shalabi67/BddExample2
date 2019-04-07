@@ -71,6 +71,7 @@ public class EmployeeEvent implements Serializable {
         this.employeeJson = employeeJson;
     }
 
+    /*
     public Employee getEmployee() {
         JsonMapper<Employee> jsonMapper = new JsonMapper<>();
         Employee employee = jsonMapper.toObject(getEmployeeJson(), Employee.class);
@@ -83,4 +84,5 @@ public class EmployeeEvent implements Serializable {
         this.employeeId = employee.getUuid();
         this.employeeJson = jsonMapper.toString(employee);
     }
+    */
 }
