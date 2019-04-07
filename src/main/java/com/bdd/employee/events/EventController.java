@@ -20,8 +20,6 @@ public class EventController {
 
     @GetMapping(EmployeeController.URL + "/{employeeId}" + EVENTS_URL)
     public List<EmployeeEvent> getEvents(@PathVariable Long employeeId) {
-        Employee employee = new Employee();
-        employee.setUuid(employeeId);
-        return employeeEventRepository.findAllByEmployeeOrderByCreationDate(employee);
+        return employeeEventRepository.findAllByEmployeeIdOrderByCreationDate(employeeId);
     }
 }

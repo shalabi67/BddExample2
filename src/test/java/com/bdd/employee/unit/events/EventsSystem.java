@@ -24,7 +24,7 @@ public class EventsSystem implements com.bdd.employee.facade.EventsSystem {
 
     public EventsSystem() {
         employeeEventRepository = Mockito.mock(EmployeeEventRepository.class);
-        Mockito.when(employeeEventRepository.findAllByEmployeeOrderByCreationDate(any())).thenAnswer(getEventAnswer);
+        Mockito.when(employeeEventRepository.findAllByEmployeeIdOrderByCreationDate(any())).thenAnswer(getEventAnswer);
 
         eventController = new EventController(employeeEventRepository);
 
@@ -39,10 +39,10 @@ public class EventsSystem implements com.bdd.employee.facade.EventsSystem {
     private Answer<List<EmployeeEvent>> getEventAnswer = new Answer<List<EmployeeEvent>>() {
         @Override
         public List<EmployeeEvent> answer(InvocationOnMock invocationOnMock) throws Throwable {
-            Employee employee = invocationOnMock.getArgument(0);
-            eventMocks.initializeEmployeeEvents(employee.getUuid());
+            Long employeeId = invocationOnMock.getArgument(0);
+            eventMocks.initializeEmployeeEvents(employeeId);
 
-            return eventMocks.getEmployeeEvents(employee.getUuid());
+            return eventMocks.getEmployeeEvents(employeeId);
         }
     };
 }

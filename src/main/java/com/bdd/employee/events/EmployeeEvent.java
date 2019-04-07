@@ -2,6 +2,7 @@ package com.bdd.employee.events;
 
 
 import com.bdd.employee.employees.Employee;
+import com.bdd.employee.employees.JsonMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,9 +15,9 @@ public class EmployeeEvent implements Serializable {
     private Long eventId;
     private EventTypeEnum eventType;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "uuid", nullable = true)
-    private Employee employee;
+    private Long employeeId;
+
+    private String employeeJson;
 
     @Column(insertable = false, updatable = false, columnDefinition = "datetime NULL DEFAULT CURRENT_TIMESTAMP")
     private Date creationDate;
@@ -24,9 +25,10 @@ public class EmployeeEvent implements Serializable {
     public EmployeeEvent() {
     }
 
-    public EmployeeEvent(EventTypeEnum eventType, Employee employee) {
+    public EmployeeEvent(EventTypeEnum eventType, Long employeeId, String employeeJson) {
         this.eventType = eventType;
-        this.employee = employee;
+        this.employeeId = employeeId;
+        this.employeeJson = employeeJson;
     }
 
     public Long getEventId() {
@@ -45,19 +47,40 @@ public class EmployeeEvent implements Serializable {
         this.eventType = eventType;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
     public Date getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeJson() {
+        return employeeJson;
+    }
+
+    public void setEmployeeJson(String employeeJson) {
+        this.employeeJson = employeeJson;
+    }
+
+    public Employee getEmployee() {
+        JsonMapper<Employee> jsonMapper = new JsonMapper<>();
+        Employee employee = jsonMapper.toObject(getEmployeeJson(), Employee.class);
+
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        JsonMapper<Employee> jsonMapper = new JsonMapper<>();
+        this.employeeId = employee.getUuid();
+        this.employeeJson = jsonMapper.toString(employee);
     }
 }

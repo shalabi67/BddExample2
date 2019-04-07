@@ -5,7 +5,7 @@ import com.bdd.employee.employees.Employee;
 import com.bdd.employee.employees.EmployeeController;
 import com.bdd.employee.employees.ErrorEnum;
 import com.bdd.employee.employees.Result;
-import com.bdd.employee.facade.JsonMapper;
+import com.bdd.employee.employees.JsonMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

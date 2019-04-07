@@ -1,20 +1,17 @@
 package com.bdd.employee.itegration.events;
 
 import com.bdd.employee.configurations.SecurityConfiguration;
-import com.bdd.employee.employees.Employee;
 import com.bdd.employee.employees.EmployeeController;
 import com.bdd.employee.events.EmployeeEvent;
 import com.bdd.employee.events.EventController;
-import com.bdd.employee.facade.JsonMapper;
+import com.bdd.employee.employees.JsonMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.Base64Utils;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

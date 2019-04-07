@@ -78,7 +78,9 @@ public class EmployeeService {
         return new Result<>(employee);
     }
     private void sendMessage(EventTypeEnum eventType, Employee employee) {
-        EmployeeEvent employeeEvent = new EmployeeEvent(eventType, employee);
+        JsonMapper<Employee> jsonMapper = new JsonMapper<>();
+
+        EmployeeEvent employeeEvent = new EmployeeEvent(eventType, employee.getUuid(), jsonMapper.toString(employee));
         employeeSender.send(employeeEvent);
     }
 

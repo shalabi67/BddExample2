@@ -1,4 +1,4 @@
-package com.bdd.employee.facade;
+package com.bdd.employee.employees;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

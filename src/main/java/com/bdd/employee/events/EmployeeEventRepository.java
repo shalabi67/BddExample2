@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface EmployeeEventRepository extends JpaRepository<EmployeeEvent, Long> {
-    List<EmployeeEvent> findAllByEmployeeOrderByCreationDate(Employee employee);
+    //List<EmployeeEvent> findAllByEmployeeOrderByCreationDate(Employee employee);
+    List<EmployeeEvent> findAllByEmployeeIdOrderByCreationDate(Long employeeId);
 }
