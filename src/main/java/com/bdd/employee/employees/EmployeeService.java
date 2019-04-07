@@ -14,6 +14,11 @@ import java.util.regex.Pattern;
 
 @Service
 public class EmployeeService {
+    static final String INVALID_EMAIL = "Invalid Email.";
+    static final String INVALID_DATE = "Invalid Date, expecting date yyyy-mm-dd.";
+    static final String EMAIL_EXISTS = "Email exists, try another email.";
+    static final String UNDEFINED = "Undefined Error, please try again.";
+    static final String EMPLOYEE_NOT_EXIST ="Employee not exists";
     private EmployeeRepository employeeRepository;
     private EmployeeSender employeeSender;
 
@@ -24,26 +29,38 @@ public class EmployeeService {
     }
 
     public Result<Employee> addEmployee(Employee employee) {
+        return saveEmployee(EventTypeEnum.added, employee);
+    }
+
+    private Result<Employee> saveEmployee(EventTypeEnum eventType, Employee employee) {
         if(!isValidEmail(employee.getEmail())) {
-            return new Result<>(ErrorEnum.InvalidEmail, "Invalid Email.");
+            return new Result<>(ErrorEnum.InvalidEmail, INVALID_EMAIL);
         }
         if(!isValidDate(employee.getBirthday())) {
-            return new Result<>(ErrorEnum.InvalidDate, "Invalid Date, expecting date yyyy-mm-dd.");
+            return new Result<>(ErrorEnum.InvalidDate, INVALID_DATE);
         }
 
         try {
             Result<Employee> result = new Result<>(employeeRepository.save(employee));
 
-            sendMessage(EventTypeEnum.added, result.getResult());
+            sendMessage(eventType, result.getResult());
 
             return result;
         }catch(DataIntegrityViolationException integrityException) {
-            return new Result<>(ErrorEnum.EmailExists, "Email exists, try another email.");
+            return new Result<>(ErrorEnum.EmailExists, EMAIL_EXISTS);
         }catch(Exception e) {
-            return new Result<>(ErrorEnum.Error, "Undefined Error, please try again.");
+            return new Result<>(ErrorEnum.Error, UNDEFINED);
         }
     }
 
+    public Result<Employee> changeEmployee(Long employeeId, Employee employee) {
+        if(employeeRepository.findById(employeeId).isPresent()) {
+            employee.setUuid(employeeId);
+            return saveEmployee(EventTypeEnum.updated, employee);
+        }
+
+        return new Result<>(ErrorEnum.EmployeeNotExist, EMPLOYEE_NOT_EXIST);
+    }
     private void sendMessage(EventTypeEnum eventType, Employee employee) {
         EmployeeEvent employeeEvent = new EmployeeEvent(eventType, employee);
         employeeSender.send(employeeEvent);

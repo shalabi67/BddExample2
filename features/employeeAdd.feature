@@ -5,7 +5,7 @@ Feature: Add Employee
   Background:
     Given Employee system is started and it has three department 1, 2, and 3
 
-  @main
+  @main @events @addEvent
   Scenario Outline: Create Employee
     When user provides valid employee information to create a valid employee <firstName>, <lastName>, <email>, <birthday>, and <department>
     Then system creates employee and provide an auto increment employee uuid

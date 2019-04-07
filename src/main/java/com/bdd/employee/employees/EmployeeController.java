@@ -7,10 +7,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(EmployeeController.URL)
@@ -27,9 +24,9 @@ public class EmployeeController {
     @ApiOperation(value = "create employee", response= Employee.class, httpMethod="POST")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Employee created.")
-            ,@ApiResponse(code = 400, message = "It is a bad request some undefined error happened.")
-            ,@ApiResponse(code = 409, message = "Email exists.")
-            ,@ApiResponse(code = 412, message = "Invalid email or invalid date.")
+            ,@ApiResponse(code = 400, message = EmployeeService.UNDEFINED)
+            ,@ApiResponse(code = 409, message = EmployeeService.EMAIL_EXISTS)
+            ,@ApiResponse(code = 412, message = EmployeeService.INVALID_EMAIL + "or " + EmployeeService.INVALID_DATE)
     })
     @PostMapping("")
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
@@ -41,11 +38,30 @@ public class EmployeeController {
         return getError(result);
     }
 
+    @ApiOperation(value = "update employee", response= Employee.class, httpMethod="POST")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Employee updated.")
+            ,@ApiResponse(code = 400, message = EmployeeService.UNDEFINED)
+            ,@ApiResponse(code = 404, message = EmployeeService.EMPLOYEE_NOT_EXIST)
+            ,@ApiResponse(code = 409, message = EmployeeService.EMAIL_EXISTS)
+            ,@ApiResponse(code = 412, message = EmployeeService.INVALID_EMAIL + "or " + EmployeeService.INVALID_DATE)
+    })
+    @PutMapping("/{employeeId}")
+    public ResponseEntity<Employee> changeEmployee(@PathVariable Long employeeId, @RequestBody Employee employee) {
+        Result<Employee> result = employeeService.changeEmployee(employeeId, employee);
+        if(result.getErrorNumber() == ErrorEnum.Success) {
+            return new ResponseEntity<>(result.getResult(), HttpStatus.OK);
+        }
+
+        return getError(result);
+    }
+
     private ResponseEntity getError(Result<Employee> result) {
         switch(result.getErrorNumber()) {
             case EmailExists: return new ResponseEntity(result.getErrorMessage(), HttpStatus.CONFLICT);
             case InvalidDate: return new ResponseEntity(result.getErrorMessage(), HttpStatus.EXPECTATION_FAILED);
             case InvalidEmail: return new ResponseEntity(result.getErrorMessage(), HttpStatus.PRECONDITION_FAILED);
+            case EmployeeNotExist: return new ResponseEntity(result.getErrorMessage(), HttpStatus.NOT_FOUND);
             case Error:
             default: return new ResponseEntity(result.getErrorMessage(), HttpStatus.BAD_REQUEST);
         }

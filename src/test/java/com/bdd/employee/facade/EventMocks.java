@@ -4,6 +4,7 @@ import com.bdd.employee.configurations.QueueConfiguration;
 import com.bdd.employee.departments.Department;
 import com.bdd.employee.employees.Employee;
 import com.bdd.employee.events.*;
+import org.jetbrains.annotations.NotNull;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -80,17 +81,7 @@ public class EventMocks {
     };
 
     private EmployeeEvent createEvent(EventTypeEnum type, long employeeId) {
-        Department department = new Department();
-        department.setDepartmentId(employeeId);
-        department.setDepartmentName("Name" + employeeId);
-
-        Employee employee = new Employee();
-        employee.setUuid(employeeId);
-        employee.setDepartment(department);
-        employee.setBirthday("1999/01/02");
-        employee.setEmail("email" + employeeId + "@gmil.com");
-        employee.setFirstName("firstName" + employeeId);
-        employee.setLastName("lastName" + employeeId);
+        Employee employee = getEmployee(employeeId);
 
         EmployeeEvent employeeEvent = new EmployeeEvent();
         employeeEvent.setCreationDate(new Date());
@@ -99,6 +90,22 @@ public class EventMocks {
         employeeEvent.setEventId(++count);
 
         return employeeEvent;
+    }
+
+    @NotNull
+    public Employee getEmployee(long employeeId) {
+        Department department = new Department();
+        department.setDepartmentId(employeeId);
+        department.setDepartmentName("Name" + employeeId);
+
+        Employee employee = new Employee();
+        employee.setUuid(employeeId);
+        employee.setDepartment(department);
+        employee.setBirthday("1999-01-02");
+        employee.setEmail("email" + employeeId + "@gmil.com");
+        employee.setFirstName("firstName" + employeeId);
+        employee.setLastName("lastName" + employeeId);
+        return employee;
     }
 
 }

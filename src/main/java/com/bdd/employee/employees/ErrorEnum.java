@@ -5,5 +5,6 @@ public enum ErrorEnum {
     InvalidEmail,
     EmailExists,
     InvalidDate,
-    Error
+    Error,
+    EmployeeNotExist
 }
