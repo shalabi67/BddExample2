@@ -70,19 +70,4 @@ public class EmployeeEvent implements Serializable {
     public void setEmployeeJson(String employeeJson) {
         this.employeeJson = employeeJson;
     }
-
-    /*
-    public Employee getEmployee() {
-        JsonMapper<Employee> jsonMapper = new JsonMapper<>();
-        Employee employee = jsonMapper.toObject(getEmployeeJson(), Employee.class);
-
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        JsonMapper<Employee> jsonMapper = new JsonMapper<>();
-        this.employeeId = employee.getUuid();
-        this.employeeJson = jsonMapper.toString(employee);
-    }
-    */
 }

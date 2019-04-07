@@ -38,7 +38,7 @@ public class EmployeeController {
         return getError(result);
     }
 
-    @ApiOperation(value = "update employee", response= Employee.class, httpMethod="POST")
+    @ApiOperation(value = "update employee", response= Employee.class, httpMethod="PUT")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Employee updated.")
             ,@ApiResponse(code = 400, message = EmployeeService.UNDEFINED)
@@ -49,6 +49,21 @@ public class EmployeeController {
     @PutMapping("/{employeeId}")
     public ResponseEntity<Employee> changeEmployee(@PathVariable Long employeeId, @RequestBody Employee employee) {
         Result<Employee> result = employeeService.changeEmployee(employeeId, employee);
+        if(result.getErrorNumber() == ErrorEnum.Success) {
+            return new ResponseEntity<>(result.getResult(), HttpStatus.OK);
+        }
+
+        return getError(result);
+    }
+
+    @ApiOperation(value = "Get employee", response= Employee.class, httpMethod="GET")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Employee updated.")
+            ,@ApiResponse(code = 404, message = EmployeeService.EMPLOYEE_NOT_EXIST)
+    })
+    @GetMapping("/{employeeId}")
+    public ResponseEntity<Employee> getEmployee(@PathVariable Long employeeId) {
+        Result<Employee> result = employeeService.getEmployee(employeeId);
         if(result.getErrorNumber() == ErrorEnum.Success) {
             return new ResponseEntity<>(result.getResult(), HttpStatus.OK);
         }

@@ -3,6 +3,7 @@ package com.bdd.employee.employees;
 import com.bdd.employee.events.EmployeeEvent;
 import com.bdd.employee.events.EmployeeSender;
 import com.bdd.employee.events.EventTypeEnum;
+import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -52,6 +54,15 @@ public class EmployeeService {
         }catch(Exception e) {
             return new Result<>(ErrorEnum.Error, UNDEFINED);
         }
+    }
+
+    public Result<Employee> getEmployee(Long employeeId) {
+        Optional<Employee> employeeOption = employeeRepository.findById(employeeId);
+        if(employeeOption.isPresent()) {
+            return new Result<>(employeeOption.get());
+        }
+
+        return new Result<>(ErrorEnum.EmployeeNotExist, EMPLOYEE_NOT_EXIST);
     }
 
     public Result<Employee> changeEmployee(Long employeeId, Employee employee) {

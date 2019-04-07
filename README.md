@@ -1,7 +1,6 @@
 # BddExample2
 Demo project for Spring Boot exposing employee and department rest apis
 
-###
 notice this ran on windows7 commands should be the same, but you need to take care of directories.
 
 ##Start containers
@@ -14,19 +13,30 @@ docker exec -it MySql mysql -uroot -p
 docker exec -it MySql mysql -uroot -p
 password is root
 
-####connection failed
+####fixing connection failed error if exists
 select user,host from mysql.user where user='root';
 
 CREATE USER 'root'@'10.0.2.2' IDENTIFIED WITH mysql_native_password BY 'root';
 grant all privileges on *.* to 'root'@'10.0.2.2' with grant option;
 
 
-##start rabbitmq
+###start rabbitmq
 docker run -d --hostname rabbitmq --name rabbitmq -p 15671:15671 -p 567:5671 -p 5672:5672 rabbitmq:3-management
 
+
+###Notice on windows you may need to do port forwarding.
 
 ##run application
 ####start mysql container
 ####start rabbitmq container
 #### start application from intellij by running EmployyApplication
 #### to use swagger: http://localhost:8080/swagger-ui.html#/department-controller provide username:admin and password admin
+
+
+##Reports
+This is very important feature of the BDD methodology. it shows the features, test, tags, failures, and etc.
+
+##View them
+mvn clean install
+manually run the ReportGenerator tests. 
+run target/reports/cucumber-html-reports/overview-features.html
