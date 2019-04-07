@@ -9,7 +9,7 @@ Feature: Get Employee Event
   @main
   Scenario Outline: Get Employee Events
     When user provided an employee id <employeeId>
-    Then system returns all eventes realted to that employee sorted by event creation date.
+    Then system returns all events realted to that employee sorted by event creation date
     Examples:
       | employeeId |
       | 1          |
@@ -20,9 +20,9 @@ Feature: Get Employee Event
   @alternative
   Scenario Outline: Get Employee Events for non exiting employee
     When user requested to get events for a non exiting employee <employeeId>
-    Then system returns an error employee not found.
+    Then system returns an empty list
     Examples:
       | employeeId |
       | -1         |
       | 0          |
-      | 200000     |
+

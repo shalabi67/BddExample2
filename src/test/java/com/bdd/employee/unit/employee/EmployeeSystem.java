@@ -20,9 +20,6 @@ public class EmployeeSystem extends com.bdd.employee.facade.EmployeeSystem {
     @Mock
     private EmployeeRepository employeeRepository;
 
-    @Mock
-    private EmployeeSender employeeSender;
-
     private EmployeeController employeeController;
 
     private Map<String, Employee> emailEmployeeMap = new HashMap<>();

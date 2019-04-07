@@ -1,10 +1,9 @@
 package com.bdd.employee.facade;
 
 import com.bdd.employee.configurations.QueueConfiguration;
-import com.bdd.employee.events.EmployeeEvent;
-import com.bdd.employee.events.EmployeeEventRepository;
-import com.bdd.employee.events.EmployeeReceiver;
-import com.bdd.employee.events.EmployeeSender;
+import com.bdd.employee.departments.Department;
+import com.bdd.employee.employees.Employee;
+import com.bdd.employee.events.*;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -17,12 +16,22 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
 public class EventMocks {
+    static long count = 0;
     private Map<Long, List<EmployeeEvent>> employeeEventMap = new HashMap<>(); //EmployeeId TO List<EmployeeEvents>
     public  List<EmployeeEvent> getEmployeeEvents(Long employeeId) {
         return employeeEventMap.getOrDefault(employeeId, new ArrayList<>());
     }
 
+    public void initializeEmployeeEvents(long employeeId) {
+        if(employeeId <= 0)
+            return;
 
+        addEventToMap(employeeId, createEvent(EventTypeEnum.added, employeeId));
+        addEventToMap(employeeId, createEvent(EventTypeEnum.updated, employeeId));
+        addEventToMap(employeeId, createEvent(EventTypeEnum.updated, employeeId));
+        addEventToMap(employeeId, createEvent(EventTypeEnum.updated, employeeId));
+        addEventToMap(employeeId, createEvent(EventTypeEnum.deleted, employeeId));
+    }
 
     public EmployeeSender createEmploySenderMock() {
         Queue queue = Mockito.mock(Queue.class);
@@ -51,6 +60,11 @@ public class EventMocks {
 
         return new EmployeeReceiver(employeeEventRepository);
     }
+    private void addEventToMap(long employeeId, EmployeeEvent employeeEvent) {
+        List<EmployeeEvent> employeeEvents = employeeEventMap.getOrDefault(employeeId, new ArrayList<>());
+        employeeEvents.add(employeeEvent);
+        employeeEventMap.put(employeeId, employeeEvents);
+    }
     private Answer<EmployeeEvent> receiveAnswer = new Answer<EmployeeEvent>() {
         @Override
         public EmployeeEvent answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -59,11 +73,32 @@ public class EventMocks {
             employeeEvent.setCreationDate(new Date());
             Long employeeId = employeeEvent.getEmployee().getUuid();
 
-            List<EmployeeEvent> employeeEvents = employeeEventMap.getOrDefault(employeeId, new ArrayList<>());
-            employeeEvents.add(employeeEvent);
-            employeeEventMap.put(employeeId, employeeEvents);
+            addEventToMap(employeeId, employeeEvent);
 
             return employeeEvent;
         }
     };
+
+    private EmployeeEvent createEvent(EventTypeEnum type, long employeeId) {
+        Department department = new Department();
+        department.setDepartmentId(employeeId);
+        department.setDepartmentName("Name" + employeeId);
+
+        Employee employee = new Employee();
+        employee.setUuid(employeeId);
+        employee.setDepartment(department);
+        employee.setBirthday("1999/01/02");
+        employee.setEmail("email" + employeeId + "@gmil.com");
+        employee.setFirstName("firstName" + employeeId);
+        employee.setLastName("lastName" + employeeId);
+
+        EmployeeEvent employeeEvent = new EmployeeEvent();
+        employeeEvent.setCreationDate(new Date());
+        employeeEvent.setEventType(type);
+        employeeEvent.setEmployee(employee);
+        employeeEvent.setEventId(++count);
+
+        return employeeEvent;
+    }
+
 }

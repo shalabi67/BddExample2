@@ -11,13 +11,14 @@ import java.util.List;
 
 @RestController
 public class EventController {
+    public static final String EVENTS_URL = "/events";
     private EmployeeEventRepository employeeEventRepository;
 
     public EventController(EmployeeEventRepository employeeEventRepository) {
         this.employeeEventRepository = employeeEventRepository;
     }
 
-    @GetMapping(EmployeeController.URL + "/{employeeId}/events")
+    @GetMapping(EmployeeController.URL + "/{employeeId}" + EVENTS_URL)
     public List<EmployeeEvent> getEvents(@PathVariable Long employeeId) {
         Employee employee = new Employee();
         employee.setUuid(employeeId);
