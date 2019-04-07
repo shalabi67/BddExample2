@@ -1,6 +1,6 @@
 @employee @deleteEmployee
 Feature: Delete Employee
-  Adding employee
+  Delete employee
 
   Background:
     Given Delete Employee system is started and it has three employees
@@ -8,7 +8,7 @@ Feature: Delete Employee
   @main @events @deleteEvent
   Scenario Outline: Delete Employee
     When user provides valid employee information to delete a valid employee <employeeId>
-    Then system deletes employee and provide an auto increment employee uuid
+    Then system deletes employee
     And delete employee event will be recorded
     Examples:
       | employeeId |

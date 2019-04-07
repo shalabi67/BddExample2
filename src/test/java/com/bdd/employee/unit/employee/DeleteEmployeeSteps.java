@@ -45,7 +45,7 @@ public class DeleteEmployeeSteps {
         this.employeeId = Long.parseLong(employeeid);
     }
 
-    @Then("^system deletes employee and provide an auto increment employee uuid$")
+    @Then("^system deletes employee$")
     public void system_deletes_employee_and_provide_an_auto_increment_employee_uuid() throws Throwable {
         ResponseEntity responseEntity = employeeSystem.deleteEmployee(employeeId);
         Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());

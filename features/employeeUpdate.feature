@@ -1,6 +1,6 @@
 @employee @UpdateEmployee
 Feature: Update Employee
-  Adding employee
+  Updating employee
 
   Background:
     Given Employee system is started and it has three employees 1, 2, and 3
@@ -38,7 +38,7 @@ Feature: Update Employee
 
 
   @alternative
-  Scenario Outline: Create Employee with an exiting email
+  Scenario Outline: Update Employee with an exiting email
     When user provides exiting email with employee information to update an employee <employeeId> <firstName>, <lastName>, <email>, <birthday>, and <department>
     Then employee update system returns exiting email information
     Examples:
