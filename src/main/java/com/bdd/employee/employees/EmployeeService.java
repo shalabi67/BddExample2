@@ -4,6 +4,7 @@ import com.bdd.employee.events.EmployeeEvent;
 import com.bdd.employee.events.EmployeeSender;
 import com.bdd.employee.events.EventTypeEnum;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -60,6 +61,21 @@ public class EmployeeService {
         }
 
         return new Result<>(ErrorEnum.EmployeeNotExist, EMPLOYEE_NOT_EXIST);
+    }
+
+    public Result<Employee> deleteEmployee(Long employeeId) {
+        try {
+            employeeRepository.deleteById(employeeId);
+        }catch(EmptyResultDataAccessException e) {
+            return new Result<>(ErrorEnum.EmployeeNotExist, EMPLOYEE_NOT_EXIST);
+        }
+
+        Employee employee = new Employee();
+        employee.setUuid(employeeId);
+
+        sendMessage(EventTypeEnum.deleted, employee);
+
+        return new Result<>(employee);
     }
     private void sendMessage(EventTypeEnum eventType, Employee employee) {
         EmployeeEvent employeeEvent = new EmployeeEvent(eventType, employee);

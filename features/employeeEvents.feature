@@ -1,4 +1,4 @@
-@events @employee @createEmployee
+@events @getEvents
 Feature: Get Employee Event
   Get all recorded events for an employee sorted by date.
 

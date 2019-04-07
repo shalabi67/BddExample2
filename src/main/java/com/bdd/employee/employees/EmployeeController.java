@@ -56,6 +56,21 @@ public class EmployeeController {
         return getError(result);
     }
 
+    @ApiOperation(value = "delete employee")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Employee deleted.")
+            ,@ApiResponse(code = 404, message = EmployeeService.EMPLOYEE_NOT_EXIST)
+    })
+    @DeleteMapping("/{employeeId}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable Long employeeId) {
+        Result<Employee> result = employeeService.deleteEmployee(employeeId);
+        if(result.getErrorNumber() == ErrorEnum.Success) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return getError(result);
+    }
+
     private ResponseEntity getError(Result<Employee> result) {
         switch(result.getErrorNumber()) {
             case EmailExists: return new ResponseEntity(result.getErrorMessage(), HttpStatus.CONFLICT);

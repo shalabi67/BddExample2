@@ -14,7 +14,7 @@ public class EmployeeEvent implements Serializable {
     private Long eventId;
     private EventTypeEnum eventType;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "uuid", nullable = true)
     private Employee employee;
 

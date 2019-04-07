@@ -81,7 +81,7 @@ public class UpdateEmployeeSteps {
     @Then("^employee update system returns exiting email information$")
     public void employee_update_system_returns_exiting_email_information() throws Throwable {
         employeeSystem.createEmployee(this.employee);
-        Result<Employee> result = employeeSystem.createEmployee(this.employee);
+        Result<Employee> result = employeeSystem.updateEmployee(this.employee);
         Assert.assertEquals(employee.getEmail(), ErrorEnum.EmailExists, result.getErrorNumber());
     }
 
@@ -93,7 +93,7 @@ public class UpdateEmployeeSteps {
 
     @Then("^employee update system returns invalid birthday$")
     public void employee_update_system_returns_invalid_birthday() throws Throwable {
-        Result<Employee> result = employeeSystem.createEmployee(this.employee);
+        Result<Employee> result = employeeSystem.updateEmployee(this.employee);
         Assert.assertEquals(employee.getBirthday(), ErrorEnum.InvalidDate, result.getErrorNumber());
     }
 }
