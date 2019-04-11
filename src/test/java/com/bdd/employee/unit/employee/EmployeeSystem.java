@@ -104,7 +104,7 @@ public class EmployeeSystem extends com.bdd.employee.facade.EmployeeSystem {
             autoGenerateId++;
             newEmployee.setUuid(autoGenerateId);
             emailEmployeeMap.put(employee.getEmail(), newEmployee);
-            employeeMap.put(employee.getUuid(), employee);
+            employeeMap.put(newEmployee.getUuid(), newEmployee);
             return newEmployee;
         }
     };
@@ -113,8 +113,11 @@ public class EmployeeSystem extends com.bdd.employee.facade.EmployeeSystem {
         public Employee answer(InvocationOnMock invocationOnMock) throws Throwable {
             Employee employee = invocationOnMock.getArgument(0);
             if(emailEmployeeMap.containsKey(employee.getEmail())) {
-                throw new DataIntegrityViolationException("email error");
+                Employee existingEmployee = emailEmployeeMap.get(employee.getEmail());
+                if(existingEmployee.getUuid() !=  employee.getUuid())
+                    throw new DataIntegrityViolationException("email error");
             }
+
             Employee newEmployee = copyEmployee(employee);
             newEmployee.setUuid(employee.getUuid());
             emailEmployeeMap.put(employee.getEmail(), newEmployee);

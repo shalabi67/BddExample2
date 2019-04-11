@@ -1,4 +1,4 @@
-package com.bdd.employee.EmployeeTestingSteps;
+package com.bdd.employee.steps;
 
 import com.bdd.framework.UnitCucumber;
 import cucumber.api.CucumberOptions;

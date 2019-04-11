@@ -1,4 +1,4 @@
-package com.bdd.employee.EmployeeTestingSteps.employee;
+package com.bdd.employee.steps.employee;
 
 import com.bdd.employee.EmployeeSystemFactory;
 import com.bdd.employee.facade.EmployeeSystem;

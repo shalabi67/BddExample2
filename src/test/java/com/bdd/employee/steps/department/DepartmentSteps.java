@@ -1,9 +1,8 @@
-package com.bdd.employee.EmployeeTestingSteps.department;
+package com.bdd.employee.steps.department;
 
 import com.bdd.employee.EmployeeSystemFactory;
 import com.bdd.employee.departments.Department;
 import com.bdd.employee.facade.DepartmentSystem;
-import com.bdd.employee.itegration.SpringBootBase;
 import com.bdd.framework.Properties;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;

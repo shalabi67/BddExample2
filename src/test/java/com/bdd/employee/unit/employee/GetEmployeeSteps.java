@@ -5,15 +5,12 @@ import com.bdd.employee.employees.ErrorEnum;
 import com.bdd.employee.employees.Result;
 import com.bdd.employee.facade.EmployeeSystem;
 import com.bdd.employee.facade.EventMocks;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 import cucumber.api.junit.Cucumber;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @RunWith(Cucumber.class)
 public class GetEmployeeSteps {
