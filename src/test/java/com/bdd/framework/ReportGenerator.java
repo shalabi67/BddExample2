@@ -1,4 +1,4 @@
-package com.bdd.employee;
+package com.bdd.framework;
 
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;

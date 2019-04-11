@@ -1,5 +1,6 @@
 package com.bdd.employee.unit.employee;
 
+/*
 import com.bdd.employee.employees.Employee;
 import com.bdd.employee.employees.ErrorEnum;
 import com.bdd.employee.employees.Result;
@@ -95,3 +96,4 @@ public class CreateEmployeeSteps {
         Assert.assertEquals(employee.getBirthday(), ErrorEnum.InvalidDate, result.getErrorNumber());
     }
 }
+*/
