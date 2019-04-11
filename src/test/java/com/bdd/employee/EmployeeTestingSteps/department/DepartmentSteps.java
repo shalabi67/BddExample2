@@ -1,24 +1,26 @@
-package com.bdd.employee.itegration.department;
+package com.bdd.employee.EmployeeTestingSteps.department;
 
 import com.bdd.employee.EmployeeSystemFactory;
 import com.bdd.employee.departments.Department;
 import com.bdd.employee.facade.DepartmentSystem;
-import com.bdd.employee.itegration.JpaDataBase;
 import com.bdd.employee.itegration.SpringBootBase;
 import com.bdd.framework.Properties;
-import com.bdd.framework.SystemFactory;
 import cucumber.api.PendingException;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
 import org.junit.Ignore;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MockMvc;
 
 @Ignore
-public class DepartmentSteps extends SpringBootBase {
+public class DepartmentSteps {
     DepartmentSystem departmentSystem;
     Department department;
+
+    @Autowired
+    MockMvc mockMvc;
 
     @Given("^departments system is started$")
     public void startSystem() throws Throwable {

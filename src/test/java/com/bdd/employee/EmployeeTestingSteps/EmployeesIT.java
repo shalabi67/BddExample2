@@ -1,4 +1,4 @@
-package com.bdd.employee.itegration;
+package com.bdd.employee.EmployeeTestingSteps;
 
 import com.bdd.framework.IntegrationCucumber;
 import cucumber.api.CucumberOptions;
@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(IntegrationCucumber.class)
 @CucumberOptions(features = "features",
-        glue = "com.bdd.employee.itegration",
+        glue = {"com.bdd.framework", "com.bdd.employee.EmployeeTestingSteps"},
         plugin = {
         "pretty",
         "html:target/reports",
